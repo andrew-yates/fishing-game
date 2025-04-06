@@ -12,6 +12,7 @@ export class Rod {
   lineTweenAmount: number;
   lineSprite: Phaser.GameObjects.Line;
   lineIndicator: LineIndicator;
+  splashSprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     this.scene = scene;  
@@ -55,11 +56,11 @@ export class Rod {
           // this.lineTargetY = targetY + errorMagnitude * 2 * (Math.random()-.5);
           this.lineTarget = {x: targetX + errorMagnitude * 2 * (Math.random()-.5), y: targetY + errorMagnitude * 2 * (Math.random()-.5)};
           this.lineTweenStep = 0;
-          this.lineTweenAmount = 10 + (Math.min(dist, 450)-150)/15;
+          this.lineTweenAmount = Math.round(10 + (Math.min(dist, 450)-150)/15);
         }
 
         this.lineSprite = this.rational_line(this.scene, [this.sprite.x, this.sprite.y],[this.sprite.x, this.sprite.y] )
-        this.scene.sound.play('cast')
+        
 
         this.lineIndicator = new LineIndicator(scene, 950, 80);
       }
@@ -97,6 +98,24 @@ export class Rod {
 
       if (this.lineTweenStep < this.lineTweenAmount) {
         this.lineTweenStep += 1;
+        if (this.lineTweenStep === this.lineTweenAmount) {
+          this.scene.sound.play('cast');
+
+          this.splashSprite = this.scene.physics.add.sprite(this.lineTarget.x, this.lineTarget.y, 'splash')
+          this.splashSprite.setScale(2, 2);
+
+          const splash = {
+            key: 'splash',
+            frames: this.scene.anims.generateFrameNumbers('splash', { start: 0, end: 6 }),
+            frameRate: 10,
+            repeat: 0
+          };
+          this.splashSprite.anims.create(splash)
+
+          
+          this.splashSprite.anims.play('splash');
+          
+        }
       }
       
       const diffX = this.lineTarget.x - rodTipX;
