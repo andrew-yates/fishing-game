@@ -36,8 +36,12 @@ export class Preloader extends Scene
 
         this.load.spritesheet('player', 'player.png', { frameWidth: 60, frameHeight: 120 });
         this.load.spritesheet('rod', 'rod.png', { frameWidth: 15, frameHeight: 80 });
+        this.load.spritesheet('indicator', 'LineIndicator.png', {frameWidth: 80, frameHeight: 80});
 
         this.load.audio('music', [ 'music.mp3' ]);
+        this.load.audio('cast', [ 'cast.wav' ]);
+        this.load.audio('fail', [ 'fail.wav' ]);
+        this.load.audio('success', [ 'success.wav' ]);
     }
 
     create ()

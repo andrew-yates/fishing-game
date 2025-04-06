@@ -16,7 +16,7 @@ export class Game extends Scene
     create ()
     {
         this.camera = this.cameras.main;
-        this.camera.setBackgroundColor(0x0020ff);
+        this.camera.setBackgroundColor(0x0727ff);
 
 
         this.player = new Player(this, 200, 200);

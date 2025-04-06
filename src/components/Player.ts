@@ -37,7 +37,7 @@ export class Player {
 
   update(_time: number, delta: number) {
 
-    this.rod.update(this.sprite.x, this.sprite.y);
+    this.rod.update(this.sprite.x, this.sprite.y, _time, delta);
 
     const wKey = this.scene.input.keyboard!.addKey("W");
     const aKey = this.scene.input.keyboard!.addKey("A");

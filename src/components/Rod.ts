@@ -1,4 +1,4 @@
-
+import { LineIndicator } from '../components/LineIndicator';
 
 export class Rod {
   sprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -9,6 +9,7 @@ export class Rod {
   lineX: number;
   lineY: number;
   lineSprite: Phaser.GameObjects.Line;
+  lineIndicator: LineIndicator;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     this.scene = scene;  
@@ -50,17 +51,27 @@ export class Rod {
         }
 
         this.lineSprite = this.rational_line(this.scene, [this.sprite.x, this.sprite.y],[this.lineX, this.lineY] )
+        this.scene.sound.play('cast')
+
+        this.lineIndicator = new LineIndicator(scene, 950, 80);
       }
       else {
         this.isOut = false;
         this.lineSprite.destroy();
+        const caught = this.lineIndicator.destroy();
+        if (caught) {
+          this.scene.sound.play('success');
+        }
+        else {
+          this.scene.sound.play('fail');
+        }
       }
 
     });
 
   }
   
-  update(basex: number, basey: number) {
+  update(basex: number, basey: number, _time: number, delta: number) {
     let rotation = -1 * Math.atan((this.pointerX - basex)/(this.pointerY-basey));
     if (this.pointerY > basey) {
       rotation = Math.PI + rotation;
@@ -77,8 +88,8 @@ export class Rod {
       const rodTipY = 80 * Math.sin(this.sprite.rotation - Math.PI/2) + this.sprite.y;
 
       this.lineSprite = this.rational_line(this.scene, [rodTipX, rodTipY],[this.lineX, this.lineY])
+      this.lineIndicator.update(_time, delta);
     }
-
   }
 
   // https://www.reddit.com/r/phaser/comments/102c7at/a_more_rational_line_function_for_phaser/
