@@ -35,6 +35,7 @@ export class Preloader extends Scene
         this.load.image('logo', 'logo.png');
 
         this.load.spritesheet('player', 'player.png', { frameWidth: 60, frameHeight: 120 });
+        this.load.spritesheet('rod', 'rod.png', { frameWidth: 15, frameHeight: 80 });
 
         this.load.audio('music', [ 'music.mp3' ]);
     }

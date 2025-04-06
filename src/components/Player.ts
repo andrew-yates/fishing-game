@@ -1,3 +1,5 @@
+import { Rod } from '../components/Rod';
+
 interface Input {
   left: boolean;
   right: boolean;
@@ -8,19 +10,34 @@ interface Input {
 export class Player {
   sprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
   scene: Phaser.Scene;
+  rod: Rod;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
-      this.scene = scene;  
+    this.scene = scene;  
 
-      this.sprite = scene.physics.add.sprite(x, y, 'player');
-      this.sprite.setCollideWorldBounds(true);
-      this.sprite.body.setAllowDrag(true);
-      this.sprite.body.setAngularDrag(10);
-      this.sprite.body.setDamping(true);
-      this.sprite.body.setDrag(.6);
-      this.sprite.body.setMaxSpeed(80);
+    this.sprite = scene.physics.add.sprite(x, y, 'player');
+    this.sprite.setCollideWorldBounds(true);
+    this.sprite.body.setAllowDrag(true);
+    this.sprite.body.setAngularDrag(10);
+    this.sprite.body.setDamping(true);
+    this.sprite.body.setDrag(.6);
+    this.sprite.body.setMaxSpeed(80);
+
+    this.rod = new Rod(scene, x, y);
+
+    const config = {
+      key: 'paddleAnimation',
+      frames: this.scene.anims.generateFrameNumbers('player', { start: 0, end: 1 }),
+      frameRate: 10,
+      repeat: -1
+    };
+    this.sprite.anims.create(config)
+    this.sprite.anims.play({key: 'paddleAnimation', frameRate: 2})
   }
+
   update(_time: number, delta: number) {
+
+    this.rod.update(this.sprite.x, this.sprite.y);
 
     const wKey = this.scene.input.keyboard!.addKey("W");
     const aKey = this.scene.input.keyboard!.addKey("A");
@@ -33,33 +50,40 @@ export class Player {
       back: sKey.isDown,
     };
 
-    const velocityChangePossible = 30 * (200 - this.sprite.body.speed)/200
+    let velocityChangePossible = 30 * (200 - this.sprite.body.speed)/200;
+    if (this.sprite.body.speed < 10) {
+      velocityChangePossible = 15 + 15 * (this.sprite.body.speed)/10;
+    }
     if (input.left) {
         this.sprite.body.setAngularVelocity(-1 * velocityChangePossible);
-        // this.sprite.anims.play('walk', true);           // play walk animation
+        if (!this.sprite.anims.isPlaying) {
+          this.sprite.setFrame(1);
+        }
     }
     else if (input.right) {
         this.sprite.body.setAngularVelocity(velocityChangePossible);
-        // this.sprite.anims.play('walk', true);           // play walk animatio
+        if (!this.sprite.anims.isPlaying) {
+          this.sprite.setFrame(0);
+        }
     }
     else {
+      
       this.sprite.body.setAngularAcceleration(0);
     }
 
     if (input.forward) {
-      this.sprite.body.setAcceleration(20 * Math.sin(this.sprite.rotation), -20 * Math.cos(this.sprite.rotation));
+      this.sprite.anims.play({key: 'paddleAnimation', frameRate: 2}, true)
+      this.sprite.body.setAcceleration(25 * Math.sin(this.sprite.rotation), -20 * Math.cos(this.sprite.rotation));
     }
     else if (input.back) {
-      this.sprite.body.setAcceleration(-20 * Math.sin(this.sprite.rotation), 20 * Math.cos(this.sprite.rotation));
+      this.sprite.anims.play({key: 'paddleAnimation', frameRate: 2}, true)
+      this.sprite.body.setAcceleration(-25 * Math.sin(this.sprite.rotation), 20 * Math.cos(this.sprite.rotation));
     }
     else {
+      this.sprite.anims.stop();
       this.sprite.body.setAcceleration(0);
     }
 
-    // const roundToTenth = (num) => Math.round(100 * num) / 100;
-
-
-    
     const speed = this.sprite.body.speed;
     if (speed > 1) {
       const visualDirection = this.sprite.rotation;
@@ -75,7 +99,5 @@ export class Player {
       this.sprite.body.setVelocityX(newXVelocity);
       this.sprite.body.setVelocityY(newYVelocity);
     }
-
-
   }
 }

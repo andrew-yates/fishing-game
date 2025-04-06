@@ -1,0 +1,17 @@
+Fishing game
+Heavily based on me and kris going out in half moon bay
+Go fishing. Focus on moving around the ocean in the kayak
+Come in for the night. based on amount of fish caught, can get new equipment
+day/night cycle and also days of the week + weather
+catching a fish in a certain spot adds to your map of that spot
+add some reason to keep the kayak moving around
+
+
+
+add ons:
+Oh also maybe you could be able to go get mussels at some point
+description of what you do with the fish
+other boats who say stuff to you, friend who also comes out in a boat, competitor boat
+wind direction/ weird weather forecasts
+some sort of wave splashing graphic if the boat is turning fast
+getting the lure stuck on a rock - then have to trace out some amount of rotation of the line
