@@ -7,6 +7,7 @@ export class Game extends Scene
     background: Phaser.GameObjects.Image;
     msg_text : Phaser.GameObjects.Text;
     player: Player;
+    soundLevel: number;
 
     constructor ()
     {
@@ -17,6 +18,7 @@ export class Game extends Scene
     {
         this.camera = this.cameras.main;
         this.camera.setBackgroundColor(0x0727ff);
+        
 
 
         this.player = new Player(this, 200, 200);

@@ -6,8 +6,10 @@ export class Rod {
   pointerX: number;
   pointerY: number;
   isOut: boolean;
-  lineX: number;
-  lineY: number;
+  lineTarget: {x: number, y: number};
+  linePosition: {x: number, y: number};
+  lineTweenStep: number;
+  lineTweenAmount: number;
   lineSprite: Phaser.GameObjects.Line;
   lineIndicator: LineIndicator;
 
@@ -30,8 +32,11 @@ export class Rod {
         const dist = Math.sqrt((this.sprite.x - pointer.x) ** 2 + (this.sprite.y - pointer.y) ** 2)
         if (dist < 150) {
           // perfect accuracy
-          this.lineX = pointer.x;
-          this.lineY = pointer.y;
+          // this.lineTargetX = pointer.x;
+          // this.lineTargetY = pointer.y;
+          this.lineTarget = {x: pointer.x, y: pointer.y};
+          this.lineTweenStep = 0;
+          this.lineTweenAmount = 10;
         }
         else {
           let xOffset = pointer.x - this.sprite.x;
@@ -46,11 +51,14 @@ export class Rod {
           let targetY = yOffset + this.sprite.y;
           // inaccurate
           const errorMagnitude = ((Math.min(dist, 450)) - 200) * .4;
-          this.lineX = targetX + errorMagnitude * 2 * (Math.random()-.5);
-          this.lineY = targetY + errorMagnitude * 2 * (Math.random()-.5);
+          // this.lineTargetX = targetX + errorMagnitude * 2 * (Math.random()-.5);
+          // this.lineTargetY = targetY + errorMagnitude * 2 * (Math.random()-.5);
+          this.lineTarget = {x: targetX + errorMagnitude * 2 * (Math.random()-.5), y: targetY + errorMagnitude * 2 * (Math.random()-.5)};
+          this.lineTweenStep = 0;
+          this.lineTweenAmount = 10 + (Math.min(dist, 450)-150)/15;
         }
 
-        this.lineSprite = this.rational_line(this.scene, [this.sprite.x, this.sprite.y],[this.lineX, this.lineY] )
+        this.lineSprite = this.rational_line(this.scene, [this.sprite.x, this.sprite.y],[this.sprite.x, this.sprite.y] )
         this.scene.sound.play('cast')
 
         this.lineIndicator = new LineIndicator(scene, 950, 80);
@@ -87,7 +95,16 @@ export class Rod {
       const rodTipX = 80 * Math.cos(this.sprite.rotation - Math.PI/2) + this.sprite.x;
       const rodTipY = 80 * Math.sin(this.sprite.rotation - Math.PI/2) + this.sprite.y;
 
-      this.lineSprite = this.rational_line(this.scene, [rodTipX, rodTipY],[this.lineX, this.lineY])
+      if (this.lineTweenStep < this.lineTweenAmount) {
+        this.lineTweenStep += 1;
+      }
+      
+      const diffX = this.lineTarget.x - rodTipX;
+      const diffY = this.lineTarget.y - rodTipY;
+      const posX = rodTipX + diffX * this.lineTweenStep / this.lineTweenAmount;
+      const posY = rodTipY + diffY * this.lineTweenStep / this.lineTweenAmount;
+
+      this.lineSprite = this.rational_line(this.scene, [rodTipX, rodTipY],[posX, posY])
       this.lineIndicator.update(_time, delta);
     }
   }

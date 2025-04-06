@@ -15,3 +15,10 @@ other boats who say stuff to you, friend who also comes out in a boat, competito
 wind direction/ weird weather forecasts
 some sort of wave splashing graphic if the boat is turning fast
 getting the lure stuck on a rock - then have to trace out some amount of rotation of the line
+
+
+tools used:
+vscode
+jsfxr
+libresprite
+phaser
