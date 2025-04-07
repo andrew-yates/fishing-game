@@ -1,4 +1,5 @@
 import { Rod } from '../components/Rod';
+import { DepthMap } from './DepthMap';
 
 interface Input {
   left: boolean;
@@ -12,7 +13,7 @@ export class Player {
   scene: Phaser.Scene;
   rod: Rod;
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: Phaser.Scene, x: number, y: number, depthMap: DepthMap) {
     this.scene = scene;  
 
     this.sprite = scene.physics.add.sprite(x, y, 'player');
@@ -23,7 +24,7 @@ export class Player {
     this.sprite.body.setDrag(.6);
     this.sprite.body.setMaxSpeed(80);
 
-    this.rod = new Rod(scene, x, y);
+    this.rod = new Rod(scene, x, y, depthMap);
 
     const config = {
       key: 'paddleAnimation',

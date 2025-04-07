@@ -1,4 +1,5 @@
 import { LineIndicator } from '../components/LineIndicator';
+import { DepthMap } from './DepthMap';
 
 export class Rod {
   sprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
@@ -13,10 +14,12 @@ export class Rod {
   lineSprite: Phaser.GameObjects.Line;
   lineIndicator: LineIndicator;
   splashSprite: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody;
+  depthMap: DepthMap;
 
-  constructor(scene: Phaser.Scene, x: number, y: number) {
+  constructor(scene: Phaser.Scene, x: number, y: number, depthMap: DepthMap) {
     this.scene = scene;  
     this.isOut = false;
+    this.depthMap = depthMap;
 
     this.sprite = scene.physics.add.sprite(x, y, 'rod');
     this.sprite.setOrigin(0,1);
@@ -67,12 +70,15 @@ export class Rod {
       else {
         this.isOut = false;
         this.lineSprite.destroy();
+        this.splashSprite?.destroy();
         const caught = this.lineIndicator.destroy();
         if (caught) {
           this.scene.sound.play('success');
+          this.depthMap.reveal(this.lineTarget.x, this.lineTarget.y, 8);
         }
         else {
           this.scene.sound.play('fail');
+          this.depthMap.reveal(this.lineTarget.x, this.lineTarget.y, 2.5);
         }
       }
 
@@ -129,7 +135,7 @@ export class Rod {
   }
 
   // https://www.reddit.com/r/phaser/comments/102c7at/a_more_rational_line_function_for_phaser/
-  rational_line = function(scene: Phaser.Scene,start: number[],stop: number[],linewidth=1,color=0x000000,alpha=1.0) {
+  rational_line = function(scene: Phaser.Scene,start: number[],stop: number[],linewidth=1,color=0xaaaaaa,alpha=1.0) {
     let ox, oy, x1 = start[0],y1 = start[1], x2 = stop[0], y2 = stop[1];
     let x1_, x2_, y1_, y2_;
     if(x1<x2) {
