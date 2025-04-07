@@ -44,7 +44,6 @@ export class DepthMap {
       }
       this.chunks.push(row);
     }
-    console.log(this.chunks);
     // const map = this.scene.make.tilemap({data: this.revealed, tileWidth: 32, tileHeight: 32});
     // const tiles = map.addTilesetImage('heights');
     // const layer = map.createLayer(0, tiles!, 0, 0);
@@ -58,7 +57,6 @@ export class DepthMap {
   reveal(x: number, y: number, radius: number) {
     const centerX = Math.round(x / 12.8);
     const centerY = Math.round(y / 12.8);
-    console.log(this.chunks[centerY][centerX])
 
     for (let y = 0; y < 60; y++) {
       for (let x = 0; x < 80; x++) {

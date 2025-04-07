@@ -19,7 +19,7 @@ export class MainMenu extends Scene
         this.logo = this.add.image(512, 300, 'logo');
         this.sound.setVolume(.2)
 
-        // this.music = this.sound.play('music', {loop: true})
+        this.music = this.sound.play('music', {loop: true, volume: 2})
 
         this.input.once('pointerdown', () => {
 
