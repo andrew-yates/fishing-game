@@ -1,0 +1,24 @@
+{ "frames": {
+   "rod.ase": {
+    "frame": { "x": 0, "y": 0, "w": 15, "h": 80 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 15, "h": 80 },
+    "sourceSize": { "w": 15, "h": 80 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://github.com/LibreSprite/LibreSprite/",
+  "version": "1.1-dev",
+  "image": "C:\\Users\\andre\\OneDrive\\Documents\\projects\\2025\\ludum-dare-fishing\\public\\assets\\rod.png",
+  "format": "RGBA8888",
+  "size": { "w": 15, "h": 80 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

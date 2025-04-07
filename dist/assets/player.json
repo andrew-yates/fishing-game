@@ -1,0 +1,35 @@
+{ "frames": {
+   "0": {
+    "frame": { "x": 0, "y": 0, "w": 60, "h": 120 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 60, "h": 120 },
+    "sourceSize": { "w": 60, "h": 120 },
+    "duration": 100
+   },
+   "1": {
+    "frame": { "x": 60, "y": 0, "w": 60, "h": 120 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 60, "h": 120 },
+    "sourceSize": { "w": 60, "h": 120 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "https://github.com/LibreSprite/LibreSprite/",
+  "version": "1.1-dev",
+  "image": "C:\\Users\\andre\\OneDrive\\Documents\\projects\\2025\\ludum-dare-fishing\\public\\assets\\player.png",
+  "format": "RGBA8888",
+  "size": { "w": 120, "h": 120 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "paddle", "from": 0, "to": 1, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" },
+   { "name": "Layer 2", "opacity": 255, "blendMode": "normal" },
+   { "name": "Layer 3", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}
